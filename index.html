@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ICTと生成AIの活用事例、ツール、作品、資料、わせがく関連情報を案内する情報ポータルです。">
+  <meta name="color-scheme" content="light">
+  <title>ICT &amp; Generative AI｜未来の学びは、ここから始まる！</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231d5f85'/%3E%3Cpath d='M18 18h10v28H18zm18 0h10v28H36z' fill='white'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%2387c7b2'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ink: #15243c;
+      --muted: #586b80;
+      --blue: #3767ea;
+      --blue-dark: #173f8f;
+      --blue-soft: #eaf0ff;
+      --green: #0f9076;
+      --green-soft: #e4f8f1;
+      --coral: #ef6a61;
+      --coral-soft: #fff0ec;
+      --yellow: #f5bb43;
+      --violet: #7357d9;
+      --cream: #fffaf1;
+      --paper: #ffffff;
+      --line: #dce4f2;
+      --shadow: 0 18px 48px rgba(25, 58, 113, .11);
+      --radius-lg: 28px;
+      --radius-md: 20px;
+      --max: 1160px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 6%, rgba(245,187,67,.15), transparent 22rem),
+        radial-gradient(circle at 92% 3%, rgba(55,103,234,.14), transparent 27rem),
+        linear-gradient(180deg, #f4f7ff 0, var(--cream) 36rem, #f6fbff 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid #f3b74d; outline-offset: 3px; }
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -5rem;
+      z-index: 99;
+      padding: .75rem 1rem;
+      border-radius: .75rem;
+      color: #fff;
+      background: var(--blue-dark);
+    }
+    .skip-link:focus { top: 1rem; }
+
+    .shell { width: min(calc(100% - 32px), var(--max)); margin-inline: auto; }
+
+    .hero { padding: 24px 0 18px; }
+    .hero-panel {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      padding: clamp(26px, 5vw, 58px);
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 34px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 78% 16%, rgba(77,224,191,.30), transparent 17rem),
+        radial-gradient(circle at 92% 88%, rgba(245,187,67,.25), transparent 19rem),
+        linear-gradient(135deg, #122f70 0%, #315fdd 52%, #684fc8 100%);
+      box-shadow: 0 26px 70px rgba(23,63,143,.26);
+    }
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: .22;
+      background-image:
+        linear-gradient(rgba(255,255,255,.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.12) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(90deg, transparent, #000 42%, #000);
+    }
+    .hero-panel::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      right: -4rem;
+      bottom: -7rem;
+      width: 20rem;
+      height: 20rem;
+      border: 3.5rem solid rgba(255,255,255,.10);
+      border-radius: 50%;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.14fr) minmax(300px, .86fr);
+      gap: clamp(28px, 5vw, 62px);
+      align-items: center;
+    }
+    .hero-copy { position: relative; z-index: 1; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      margin: 0 0 .65rem;
+      color: #9ff4d8;
+      font-size: .86rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      margin-bottom: .45rem;
+      font-size: clamp(2rem, 5.4vw, 4.5rem);
+      line-height: 1.08;
+      letter-spacing: -.035em;
+    }
+    .tagline {
+      margin: 0;
+      color: #fff0a8;
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      font-weight: 700;
+    }
+    .hero-note { max-width: 40rem; margin: 1.15rem 0 0; color: rgba(255,255,255,.82); }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.25rem; }
+    .hero-chip {
+      padding: .38rem .72rem;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 999px;
+      color: rgba(255,255,255,.94);
+      background: rgba(255,255,255,.10);
+      font-size: .82rem;
+      font-weight: 750;
+      backdrop-filter: blur(8px);
+    }
+    .hero-actions {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 24px;
+      background: rgba(8,26,68,.24);
+      box-shadow: 0 18px 40px rgba(7,24,66,.18);
+      backdrop-filter: blur(12px);
+    }
+    .hero-actions-label { margin: 0 0 1px 4px; color: #fff0a8; font-size: .78rem; font-weight: 900; letter-spacing: .11em; }
+    .hero-action {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 72px;
+      padding: 12px 14px;
+      border: 1px solid rgba(255,255,255,.20);
+      border-radius: 17px;
+      color: var(--ink);
+      background: rgba(255,255,255,.95);
+      text-decoration: none;
+      box-shadow: 0 10px 28px rgba(7,24,66,.14);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .hero-action:hover { transform: translateX(4px); box-shadow: 0 14px 34px rgba(7,24,66,.22); }
+    .hero-action-icon {
+      display: grid;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border-radius: 13px;
+      color: #fff;
+      background: linear-gradient(145deg, var(--blue), var(--violet));
+      font-size: 1.15rem;
+      font-weight: 900;
+    }
+    .hero-action:nth-of-type(2) .hero-action-icon { background: linear-gradient(145deg, var(--coral), #f09259); }
+    .hero-action:nth-of-type(3) .hero-action-icon { background: linear-gradient(145deg, var(--green), #30b995); }
+    .hero-action strong { display: block; font-size: .94rem; line-height: 1.35; }
+    .hero-action small { display: block; margin-top: .12rem; color: var(--muted); font-size: .76rem; line-height: 1.4; }
+    .hero-action-arrow { color: var(--blue); font-size: 1.2rem; font-weight: 900; }
+
+    .nav-wrap { position: relative; z-index: 2; margin-top: -2px; padding: 0 0 22px; }
+    .nav {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 12px 30px rgba(25,58,113,.09);
+    }
+    .nav a {
+      min-width: 0;
+      position: relative;
+      padding: .78rem .45rem .7rem;
+      border-radius: 12px;
+      color: var(--blue-dark);
+      font-size: .92rem;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+    .nav a::before { display: block; color: var(--coral); font-size: .68rem; font-weight: 900; letter-spacing: .1em; }
+    .nav a:nth-child(1)::before { content: "01"; }
+    .nav a:nth-child(2)::before { content: "02"; }
+    .nav a:nth-child(3)::before { content: "03"; }
+    .nav a:nth-child(4)::before { content: "04"; }
+    .nav a:nth-child(5)::before { content: "05"; }
+    .nav a:hover { color: #fff; background: linear-gradient(135deg, var(--blue), var(--violet)); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(55,103,234,.20); }
+    .nav a:hover::before { color: #fff0a8; }
+
+    main { padding-bottom: 56px; }
+    section { scroll-margin-top: 1rem; padding: clamp(38px, 7vw, 76px) 0; }
+    section + section { border-top: 1px solid var(--line); }
+    #ai, #resources { position: relative; }
+    #ai::before, #resources::before {
+      content: "";
+      position: absolute;
+      inset: 18px 0;
+      z-index: -1;
+      background: linear-gradient(135deg, rgba(234,240,255,.72), rgba(228,248,241,.50));
+    }
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 510px);
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+    .section-kicker {
+      width: fit-content;
+      margin: 0 0 .55rem;
+      padding: .25rem .6rem;
+      border-radius: 999px;
+      color: var(--blue-dark);
+      background: var(--blue-soft);
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    h2 { margin-bottom: 0; font-size: clamp(1.75rem, 3.6vw, 2.8rem); line-height: 1.22; letter-spacing: -.025em; }
+    .section-lead { margin: 0; color: var(--muted); }
+
+    .intro-copy {
+      padding: clamp(22px, 4vw, 38px);
+      border: 1px solid rgba(55,103,234,.17);
+      border-left: 7px solid transparent;
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(#fff,#fff) padding-box,
+        linear-gradient(180deg,var(--blue),var(--green),var(--yellow)) border-box;
+      box-shadow: var(--shadow);
+    }
+    .intro-copy p:last-child { margin-bottom: 0; }
+
+    .grid { display: grid; gap: 18px; }
+    .guide-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 24px; counter-reset: guide; }
+    .tool-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .album-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .resource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .relation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .card {
+      position: relative;
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      padding: 22px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--paper);
+      box-shadow: 0 10px 28px rgba(25,58,113,.075);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 5px;
+      background: linear-gradient(90deg, var(--card-accent, var(--blue)), transparent 82%);
+    }
+    .card:nth-child(4n+2) { --card-accent: var(--coral); }
+    .card:nth-child(4n+3) { --card-accent: var(--green); }
+    .card:nth-child(4n+4) { --card-accent: var(--yellow); }
+    .card:hover { transform: translateY(-5px) rotate(-.15deg); border-color: #b6c8ee; box-shadow: 0 20px 42px rgba(25,58,113,.14); }
+    .card h3 { margin: .85rem 0 .55rem; font-size: 1.15rem; line-height: 1.45; }
+    .card p { color: var(--muted); }
+    .card p:last-of-type { margin-bottom: 1.15rem; }
+    .card-footer { display: flex; flex-wrap: wrap; gap: .55rem; align-items: center; margin-top: auto; }
+    .icon-box {
+      display: grid;
+      width: 52px;
+      height: 52px;
+      place-items: center;
+      border-radius: 16px;
+      color: #fff;
+      background: linear-gradient(145deg, var(--card-accent, var(--blue)), color-mix(in srgb, var(--card-accent, var(--blue)) 68%, #151a55));
+      box-shadow: 0 9px 20px color-mix(in srgb, var(--card-accent, var(--blue)) 25%, transparent);
+    }
+    .icon-box svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .guide-card { min-height: 265px; counter-increment: guide; }
+    .guide-card::after {
+      content: "0" counter(guide);
+      position: absolute;
+      right: 16px;
+      top: 12px;
+      color: color-mix(in srgb, var(--card-accent, var(--blue)) 16%, transparent);
+      font-size: 4.2rem;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -.08em;
+      pointer-events: none;
+    }
+    .guide-card:nth-child(1) { background: linear-gradient(155deg,#fff 28%,#eef2ff); }
+    .guide-card:nth-child(2) { background: linear-gradient(155deg,#fff 28%,#fff0ec); }
+    .guide-card:nth-child(3) { background: linear-gradient(155deg,#fff 28%,#e8faf3); }
+    .guide-card:nth-child(4) { background: linear-gradient(155deg,#fff 28%,#fff7df); }
+    .tool-grid .card:first-child { grid-column: span 2; min-height: 300px; justify-content: center; background: linear-gradient(145deg,#fff 45%,#eef2ff); }
+    .tool-grid .card:first-child h3 { font-size: clamp(1.3rem, 2.2vw, 1.8rem); }
+    .badge {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      min-height: 26px;
+      padding: .18rem .58rem;
+      border-radius: 999px;
+      color: var(--blue-dark);
+      background: var(--blue-soft);
+      font-size: .75rem;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+    .badge.restricted { color: #7a4d16; background: #fff0d4; }
+    .badge.green { color: #226251; background: var(--green-soft); }
+    .provider { margin: -.15rem 0 .55rem; color: var(--green); font-size: .82rem; font-weight: 750; }
+    .button {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: .45rem;
+      padding: .62rem .9rem;
+      border: 1px solid var(--blue);
+      border-radius: 11px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      font-weight: 750;
+      line-height: 1.35;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color .18s ease, border-color .18s ease, transform .18s ease;
+    }
+    .button:hover { background: linear-gradient(135deg, var(--blue-dark), #4d3ba7); border-color: var(--blue-dark); transform: translateY(-2px); box-shadow: 0 8px 18px rgba(55,103,234,.18); }
+    .button.secondary { color: var(--blue-dark); background: #fff; border-color: #b7d1dc; }
+    .button.secondary:hover { color: #fff; background: var(--blue-dark); border-color: var(--blue-dark); }
+    .arrow { font-size: 1.05em; }
+
+    .album-card { overflow: hidden; padding: 0; }
+    .album-art {
+      display: grid;
+      min-height: 150px;
+      place-items: center;
+      border-bottom: 1px solid var(--line);
+      color: var(--blue);
+      background:
+        radial-gradient(circle at 75% 25%, rgba(255,255,255,.65) 0 8%, transparent 8.5%),
+        linear-gradient(135deg, rgba(55,103,234,.20), rgba(15,144,118,.24) 55%, rgba(245,187,67,.28)),
+        repeating-linear-gradient(45deg, transparent 0 13px, rgba(255,255,255,.42) 13px 14px);
+    }
+    .album-art svg { width: 58px; height: 58px; fill: none; stroke: currentColor; stroke-width: 1.25; }
+    .album-body { display: flex; flex: 1; flex-direction: column; padding: 22px; }
+
+    .notice {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin: 0 0 24px;
+      padding: 16px 18px;
+      border: 1px solid #efd7aa;
+      border-radius: 14px;
+      color: #68441a;
+      background: #fff9ed;
+    }
+    .notice strong { display: block; }
+
+    .footer {
+      padding: 28px 0 46px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255,255,255,.58);
+      font-size: .9rem;
+    }
+    .footer-inner { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-content: space-between; }
+    .footer p { margin: 0; }
+    .footer a { color: var(--blue); font-weight: 700; }
+
+    .back-to-top {
+      position: fixed;
+      right: max(16px, env(safe-area-inset-right));
+      bottom: max(18px, env(safe-area-inset-bottom));
+      z-index: 30;
+      display: inline-flex;
+      gap: .5rem;
+      align-items: center;
+      min-height: 48px;
+      padding: .65rem 1rem;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      box-shadow: 0 12px 28px rgba(23,63,143,.28);
+      font-size: .9rem;
+      font-weight: 850;
+      text-decoration: none;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(14px);
+      transition: opacity .2s ease, visibility .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+    .back-to-top.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
+    .back-to-top:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(23,63,143,.36); }
+    .back-to-top-icon { font-size: 1.15rem; line-height: 1; }
+
+    @media (max-width: 920px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-actions { grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .hero-actions-label { grid-column: 1 / -1; }
+      .hero-action { grid-template-columns: 42px 1fr; }
+      .hero-action-arrow { display: none; }
+      .guide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .tool-grid, .album-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .section-head { grid-template-columns: 1fr; align-items: start; }
+    }
+    @media (max-width: 680px) {
+      .shell { width: min(calc(100% - 22px), var(--max)); }
+      .hero { padding-top: 14px; }
+      .hero-panel { border-radius: 22px; }
+      .hero-actions { grid-template-columns: 1fr; }
+      .hero-actions-label { grid-column: auto; }
+      .hero-action { grid-template-columns: 44px minmax(0,1fr) auto; }
+      .hero-action-arrow { display: block; }
+      .nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .nav a:first-child { grid-column: 1 / -1; }
+      .guide-grid, .tool-grid, .album-grid, .resource-grid, .relation-grid { grid-template-columns: 1fr; }
+      .tool-grid .card:first-child { grid-column: auto; min-height: 0; }
+      section { padding: 42px 0; }
+      .card { padding: 20px; }
+      .album-card { padding: 0; }
+      .footer-inner { display: block; }
+      .footer p + p { margin-top: .5rem; }
+      .back-to-top { right: 12px; bottom: 12px; min-width: 48px; padding: .65rem .8rem; justify-content: center; }
+      .back-to-top-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <header id="page-top" class="hero">
+    <div class="shell hero-panel">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Learning Playground</p>
+          <h1>ICT &amp;<br>Generative AI</h1>
+          <p class="tagline">未来の学びは、ここから始まる！</p>
+          <p class="hero-note">生成AIを知る、試す、学びに生かす。読むだけで終わらない、実際に触れて発見できる情報ポータルです。</p>
+          <div class="hero-chips" aria-label="掲載内容">
+            <span class="hero-chip">AIツール</span>
+            <span class="hero-chip">授業・校務</span>
+            <span class="hero-chip">作品ギャラリー</span>
+            <span class="hero-chip">信頼できる資料</span>
+          </div>
+        </div>
+        <div class="hero-actions" aria-label="おすすめコンテンツ">
+          <p class="hero-actions-label">TRY IT NOW — まずは、ここから</p>
+          <a class="hero-action" href="https://ai-it-skill-quest-jp.foamy-lamp-9870.chatgpt.site/" target="_blank" rel="noopener noreferrer">
+            <span class="hero-action-icon" aria-hidden="true">Q</span>
+            <span><strong>AI &amp; IT SKILL QUEST</strong><small>10問で自分の活用力をチェック</small></span>
+            <span class="hero-action-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="hero-action" href="https://ano-hi-newspaper.foamy-lamp-9870.chatgpt.site/" target="_blank" rel="noopener noreferrer">
+            <span class="hero-action-icon" aria-hidden="true">日</span>
+            <span><strong>出来事新聞をつくる</strong><small>知りたい“あの日”の日本へ</small></span>
+            <span class="hero-action-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="hero-action" href="#ai">
+            <span class="hero-action-icon" aria-hidden="true">AI</span>
+            <span><strong>活用アイデアを探す</strong><small>授業・校務・学びに使える入口</small></span>
+            <span class="hero-action-arrow" aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="nav-wrap">
+    <nav class="shell nav" aria-label="ページ内メニュー">
+      <a href="#about">ページの説明</a>
+      <a href="#ai">AI活用</a>
+      <a href="#album">Photo Album</a>
+      <a href="#resources">参考資料</a>
+      <a href="#wasegaku">わせがく関係</a>
+    </nav>
+  </div>
+
+  <main id="main">
+    <section id="about" aria-labelledby="about-title">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Start here</p>
+            <h2 id="about-title">このサイトについて</h2>
+          </div>
+          <p class="section-lead">お探しの情報に、迷わずたどり着ける案内所です。</p>
+        </div>
+        <div class="intro-copy">
+          <p>ICTと生成AIは、私たちの学び方や働き方を変えています。このサイトでは、生成AIの活用事例や関連ツール、画像作品、参考資料、わせがくに関する情報を紹介します。</p>
+          <p>新しい技術を「知る」だけで終わらせず、「使いこなし、未来を創る力」へ。先生、生徒、保護者をはじめ、すべての学び手の挑戦を応援します。</p>
+        </div>
+        <div id="guide-grid" class="grid guide-grid" aria-label="4つのコーナー"></div>
+      </div>
+    </section>
+
+    <section id="ai" aria-labelledby="ai-title">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Tools &amp; Practice</p>
+            <h2 id="ai-title">AI活用</h2>
+          </div>
+          <p class="section-lead">高校生活や授業、校務で役立つ生成AI・ICTのツールと活用ガイドです。</p>
+        </div>
+        <div id="ai-grid" class="grid tool-grid"></div>
+      </div>
+    </section>
+
+    <section id="album" aria-labelledby="album-title">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Visual Gallery</p>
+            <h2 id="album-title">Photo Album</h2>
+          </div>
+          <p class="section-lead">生成AIで制作したポスターや画像作品を、テーマ別のアルバムで紹介します。</p>
+        </div>
+        <div id="album-grid" class="grid album-grid"></div>
+        <div class="card-footer" style="margin-top:20px">
+          <a class="button secondary" href="./photo-album/">Photo Albumページを開く <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="resources" aria-labelledby="resources-title">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Reliable Sources</p>
+            <h2 id="resources-title">参考資料</h2>
+          </div>
+          <p class="section-lead">生成AIの導入・活用、インターネット安全、教育制度に関する公的資料を整理しました。</p>
+        </div>
+        <div id="resource-grid" class="grid resource-grid"></div>
+      </div>
+    </section>
+
+    <section id="wasegaku" aria-labelledby="wasegaku-title">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Wasegaku Network</p>
+            <h2 id="wasegaku-title">わせがく関係</h2>
+          </div>
+          <p class="section-lead">わせがくの生成AI活用、ニュースレター、分析資料への入口です。</p>
+        </div>
+        <div class="notice" role="note">
+          <span aria-hidden="true">🔒</span>
+          <div><strong>限定公開コンテンツについて</strong>Gemini Notebookの「学校訪問記録」分析と「広報戦略2026」は、学校訪問担当者・広報委員など関係者のみ利用できます。既存のアクセス権限は変更していません。</div>
+        </div>
+        <div id="relation-grid" class="grid relation-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <a id="back-to-top" class="back-to-top" href="#page-top" aria-label="ページ上部へ戻る">
+    <span class="back-to-top-icon" aria-hidden="true">↑</span>
+    <span class="back-to-top-label">ページ上部へ</span>
+  </a>
+
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <p><strong>ICT &amp; Generative AI</strong> — 未来の学びは、ここから始まる！</p>
+      <p>掲載内容確認：2026年9月20日　<a href="#about">ページ上部へ戻る</a></p>
+    </div>
+  </footer>
+
+  <script>
+    /* ================================================================
+       CONTENT DATA — 今後の追加・更新は、原則としてここを編集します。
+       1件追加する場合は、同じ配列内の項目を複製し、文字とURLを変更してください。
+       ================================================================ */
+    const content = {
+      guides: [
+        { icon: "spark", title: "AI活用", text: "生成AIやICTの活用事例、便利なツール、実践的な情報を紹介します。", href: "#ai" },
+        { icon: "image", title: "Photo Album", text: "生成AIで制作したポスターや画像作品などを紹介します。", href: "#album" },
+        { icon: "book", title: "参考資料", text: "ICTや生成AI、教育に関する資料やガイドラインを紹介します。", href: "#resources" },
+        { icon: "school", title: "わせがく関係", text: "わせがくに関連する情報やニュースレターなどを紹介します。", href: "#wasegaku" }
+      ],
+      ai: [
+        {
+          icon: "quest", type: "Webアプリ", title: "AI & IT SKILL QUEST",
+          text: "高校生の身近な場面を題材に、生成AI・IT活用力を10問で学べるレベル別認定テストです。",
+          href: "https://ai-it-skill-quest-jp.foamy-lamp-9870.chatgpt.site/", button: "テストを始める"
+        },
+        {
+          icon: "newspaper", type: "Webアプリ", title: "その日、その時にあった出来事新聞",
+          text: "知りたい日付から、その日の日本の出来事・文化・物価などを調査する歴史学習ツールです。",
+          href: "https://ano-hi-newspaper.foamy-lamp-9870.chatgpt.site/", button: "新聞を作る"
+        },
+        {
+          icon: "search", type: "プロンプト", title: "教員向け生成AIプロンプト検索",
+          text: "授業や校務で使う生成AIプロンプトを探すためのページです。",
+          href: "https://sites.google.com/wasegaku.ac.jp/information/prompt", button: "プロンプトを探す"
+        },
+        {
+          icon: "gemini", type: "活用ガイド", title: "Gemini活用ガイド",
+          text: "Chromeブラウザの「Geminiに相談」、活用事例・プロンプト集、共有Gemを案内します。",
+          href: "./gemini/", button: "ガイドを見る",
+          extra: [
+            { label: "Geminiに相談", href: "https://sites.google.com/wasegaku.ac.jp/information/gemini/Gemini" },
+            { label: "活用事例", href: "https://sites.google.com/wasegaku.ac.jp/information/gemini/gemini_t" },
+            { label: "Gem特集", href: "https://sites.google.com/wasegaku.ac.jp/information/gemini/gem" }
+          ]
+        },
+        {
+          icon: "notebook", type: "Gemini Notebook", restricted: true,
+          title: "Gemini Notebook（共有）「通信制高校の教職員＆生徒向け・特化型ガイド」付き",
+          text: "Gemini Notebookを活用した共有情報への入口です。公開範囲を確認してご利用ください。",
+          href: "https://sites.google.com/wasegaku.ac.jp/information/notebooklm", button: "案内ページを見る"
+        },
+        {
+          icon: "image", type: "制作ツール", title: "AIイラスト プロンプトメーカー",
+          text: "作りたいAIイラストのイメージから、画像生成用のプロンプトを組み立てるWebツールです。このプロンプトメーカーは、noteでAIを使った作品の作り方を紹介しているMakariさんが制作されたものです。",
+          href: "https://image-prompt-maker.makari.workers.dev/", button: "プロンプトを作る",
+          extra: [
+            { label: "Makariさんのnoteを見る", href: "https://note.com/makari_5108010" }
+          ]
+        },
+        {
+          icon: "gif", type: "制作ツール", title: "GIF作成「わせがくアオハルツール」",
+          text: "授業や広報で使えるGIFファイルの作成ページと作品例を紹介します。",
+          href: "https://sites.google.com/wasegaku.ac.jp/information/gif", button: "GIF作成ページを見る"
+        }
+      ],
+      albums: [
+        { title: "プロンプト＆ポスター集", text: "生成AIのプロンプトとポスター作品をまとめたアルバムです。", href: "https://photos.app.goo.gl/crL9aYY7gsVmdEXh9" },
+        { title: "プロンプト・ポスター集（例2「スクールバス」）", text: "スクールバスをテーマにした生成画像・ポスター作品を紹介します。", href: "https://photos.app.goo.gl/2RrxsobppbDxS3SWA" },
+        { title: "インスタ用画像生成", text: "Instagramでの発信を想定して制作した画像作品を紹介します。", href: "https://photos.app.goo.gl/wyu66SKUYjdTit159" }
+      ],
+      resources: [
+        {
+          category: "ICT・インターネット安全", format: "Web", title: "上手にネットと付き合おう — 安全・安心なインターネット利用ガイド —",
+          provider: "総務省", text: "インターネットを安全・安心に利用するための基本を学べるガイドです。", href: "https://www.soumu.go.jp/use_the_internet_wisely/"
+        },
+        {
+          category: "ICT・インターネット安全", format: "Web", title: "インターネットトラブル事例集",
+          provider: "総務省", text: "身近なトラブル事例から、予防と対応のポイントを確認できます。", href: "https://www.soumu.go.jp/use_the_internet_wisely/trouble/"
+        },
+        {
+          category: "生成AI", format: "Web", title: "生成AIはじめの一歩〜生成AIの入門的な使い方と注意点〜",
+          provider: "総務省", text: "生成AIの基本的な使い方と、利用時に気を付けたい点を解説しています。", href: "https://www.soumu.go.jp/use_the_internet_wisely/special/generativeai/"
+        },
+        {
+          category: "生成AI", format: "Web・PDF", title: "AI導入・活用ガイドライン、生成AI利用の手引き",
+          provider: "東京都デジタルサービス局", text: "組織でAIを導入・活用する際の考え方と実務上の留意点を示す資料です。", href: "https://www.digitalservice.metro.tokyo.lg.jp/business/ai/ai-guideline"
+        },
+        {
+          category: "生成AI", format: "Web", title: "生成AIの利用について",
+          provider: "文部科学省", text: "学校教育における生成AIの取扱いに関する情報をまとめた公式ページです。", href: "https://www.mext.go.jp/a_menu/other/mext_02412.html"
+        },
+        {
+          category: "教育関連", format: "PDF", title: "初等中等教育段階における生成AIの利活用に関するガイドライン（Ver.2.0）",
+          provider: "文部科学省", text: "学校現場で生成AIを適切に利活用するための基本的な考え方と留意事項です。", href: "https://www.mext.go.jp/content/20241226-mxt_shuukyo02-000030823_001.pdf"
+        },
+        {
+          category: "教育関連", format: "Web", title: "通信制高等学校情報発信サイト",
+          provider: "文部科学省", text: "通信制高等学校の仕組みや学びに関する情報を確認できる公式サイトです。", href: "https://www.mext.go.jp/tsushinseikoukou/"
+        },
+        {
+          category: "生成AI", format: "Gemini Notebook", title: "AIの教育活用 by Gemini Notebook",
+          provider: "Gemini Notebook", text: "教育におけるAI活用の情報をGemini Notebookで参照できます。", href: "https://notebooklm.google.com/notebook/b2f6fb83-56bd-48ba-a406-c259143de5d5"
+        }
+      ],
+      relations: [
+        {
+          icon: "portal", type: "ポータル", title: "わせがく「生成AIポータルサイト」",
+          text: "わせがくにおける生成AI活用情報をまとめたポータルサイトです。",
+          href: "https://sites.google.com/wasegaku.ac.jp/wasegakuai/%E3%83%9B%E3%83%BC%E3%83%A0", button: "ポータルを開く"
+        },
+        {
+          icon: "newsletter", type: "ニュースレター", title: "教育ICT＆AI通信",
+          text: "ICT・生成AIの動向と教育活用を紹介するニュースレターのバックナンバーです。",
+          href: "https://sites.google.com/wasegaku.ac.jp/information/wasegaku/ict_and_ai", button: "バックナンバーを見る"
+        },
+        {
+          icon: "notebook", type: "Gemini Notebook", restricted: true, title: "Gemini Notebook「学校訪問記録」分析",
+          text: "学校訪問担当者向けの分析資料です。利用には既存のアクセス権限が必要です。",
+          href: "https://notebook.google.com/notebook/17b4537c-8a2d-42c4-b07e-fffc5e861472", button: "Gemini Notebookを開く"
+        },
+        {
+          icon: "notebook", type: "Gemini Notebook", restricted: true, title: "Gemini Notebook「広報戦略2026」",
+          text: "広報委員向けの戦略資料です。利用には既存のアクセス権限が必要です。",
+          href: "https://notebook.google.com/notebook/925efba4-0653-4ca2-8601-0343fddc5f85", button: "Gemini Notebookを開く"
+        }
+      ]
+    };
+
+    /* 外部ライブラリを使わない、表示用のシンプルな線画アイコン */
+    function icon(name) {
+      const paths = {
+        spark: '<path d="M12 3l1.8 4.6L18 9.5l-4.2 1.9L12 16l-1.8-4.6L6 9.5l4.2-1.9L12 3Z"/><path d="M19 15l.9 2.2L22 18l-2.1.8L19 21l-.9-2.2L16 18l2.1-.8L19 15Z"/>',
+        image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m4 17 4.5-4.5 3 3 2.2-2.2L20 19"/>',
+        book: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5v-16Z"/>',
+        school: '<path d="m3 10 9-6 9 6"/><path d="M5 9v10h14V9M9 19v-6h6v6"/>',
+        quest: '<path d="M12 2.8 14.7 8l5.8.9-4.2 4.1 1 5.8-5.3-2.7-5.3 2.7 1-5.8-4.2-4.1L9.3 8 12 2.8Z"/>',
+        newspaper: '<path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h3M13 12h3M8 16h8"/>',
+        search: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',
+        gemini: '<path d="M12 2c.8 5.2 3.2 8.2 8 10-4.8 1.8-7.2 4.8-8 10-.8-5.2-3.2-8.2-8-10 4.8-1.8 7.2-4.8 8-10Z"/>',
+        notebook: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v18M12 8h4M12 12h4"/>',
+        gif: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m9 9-3 3 3 3M15 9l3 3-3 3M13 8l-2 8"/>',
+        portal: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 9v11"/>',
+        newsletter: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/>'
+      };
+      return `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.book}</svg>`;
+    }
+
+    function externalButton(href, label, secondary = false) {
+      return `<a class="button${secondary ? " secondary" : ""}" href="${href}" target="_blank" rel="noopener noreferrer">${label} <span class="arrow" aria-hidden="true">↗</span></a>`;
+    }
+
+    function renderGuides() {
+      document.querySelector('#guide-grid').innerHTML = content.guides.map(item => `
+        <article class="card guide-card">
+          <div class="icon-box">${icon(item.icon)}</div>
+          <h3>${item.title}</h3>
+          <p>${item.text}</p>
+          <div class="card-footer"><a class="button secondary" href="${item.href}">詳しく見る <span class="arrow" aria-hidden="true">↓</span></a></div>
+        </article>`).join('');
+    }
+
+    function renderAI() {
+      document.querySelector('#ai-grid').innerHTML = content.ai.map(item => `
+        <article class="card">
+          <div class="icon-box">${icon(item.icon)}</div>
+          <h3>${item.title}</h3>
+          <div class="card-footer" style="margin:0 0 .75rem">
+            <span class="badge">${item.type}</span>${item.restricted ? '<span class="badge restricted">関係者限定</span>' : ''}
+          </div>
+          <p>${item.text}</p>
+          <div class="card-footer">
+            ${externalButton(item.href, item.button)}
+            ${(item.extra || []).map(x => externalButton(x.href, x.label, true)).join('')}
+          </div>
+        </article>`).join('');
+    }
+
+    function renderAlbums() {
+      document.querySelector('#album-grid').innerHTML = content.albums.map(item => `
+        <article class="card album-card">
+          <div class="album-art">${icon('image')}</div>
+          <div class="album-body">
+            <span class="badge green">Google Photos</span>
+            <h3>${item.title}</h3>
+            <p>${item.text}</p>
+            <div class="card-footer">${externalButton(item.href, 'アルバムを見る')}</div>
+          </div>
+        </article>`).join('');
+    }
+
+    function renderResources() {
+      document.querySelector('#resource-grid').innerHTML = content.resources.map(item => `
+        <article class="card">
+          <div class="card-footer" style="margin:0 0 .5rem">
+            <span class="badge green">${item.category}</span><span class="badge">${item.format}</span>
+          </div>
+          <h3>${item.title}</h3>
+          <p class="provider">${item.provider}</p>
+          <p>${item.text}</p>
+          <div class="card-footer">${externalButton(item.href, '資料を見る')}</div>
+        </article>`).join('');
+    }
+
+    function renderRelations() {
+      document.querySelector('#relation-grid').innerHTML = content.relations.map(item => `
+        <article class="card">
+          <div class="icon-box">${icon(item.icon)}</div>
+          <h3>${item.title}</h3>
+          <div class="card-footer" style="margin:0 0 .75rem">
+            <span class="badge">${item.type}</span>${item.restricted ? '<span class="badge restricted">関係者限定</span>' : ''}
+          </div>
+          <p>${item.text}</p>
+          <div class="card-footer">${externalButton(item.href, item.button)}</div>
+        </article>`).join('');
+    }
+
+    function initPage() {
+      renderGuides();
+      renderAI();
+      renderAlbums();
+      renderResources();
+      renderRelations();
+
+      /* Google Sitesの埋め込み内でも、同一HTML内を自然に移動 */
+      document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', event => {
+          const target = document.querySelector(link.getAttribute('href'));
+          if (!target) return;
+          event.preventDefault();
+          target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+        });
+      });
+
+      /* コーナーへ移動した後に、右下へ「ページ上部へ」ボタンを表示 */
+      const backToTop = document.querySelector('#back-to-top');
+      const toggleBackToTop = () => {
+        backToTop.classList.toggle('is-visible', window.scrollY > 280);
+      };
+      window.addEventListener('scroll', toggleBackToTop, { passive: true });
+      toggleBackToTop();
+    }
+
+    initPage();
+  </script>
+</body>
+</html>
