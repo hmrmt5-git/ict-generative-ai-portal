@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Chromeブラウザの『Geminiに相談』、活用事例・プロンプト集、共有Gemを案内するGemini活用ガイドです。">
+  <meta name="color-scheme" content="light">
+  <title>Gemini活用ガイド｜ICT &amp; Generative AI</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%233767ea'/%3E%3Cstop offset='.5' stop-color='%237357d9'/%3E%3Cstop offset='1' stop-color='%23ef6a61'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M32 11c2 12 9 19 21 21-12 2-19 9-21 21-2-12-9-19-21-21 12-2 19-9 21-21Z' fill='white'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ink: #17243d;
+      --muted: #5a6a82;
+      --blue: #3767ea;
+      --blue-dark: #173f8f;
+      --violet: #7357d9;
+      --violet-dark: #4b369c;
+      --coral: #ef6a61;
+      --green: #0f9076;
+      --yellow: #f5bb43;
+      --paper: #fff;
+      --line: #dce4f2;
+      --soft: #f3f5ff;
+      --max: 1160px;
+      --shadow: 0 20px 50px rgba(31,52,111,.13);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 7% 7%, rgba(55,103,234,.14), transparent 25rem),
+        radial-gradient(circle at 95% 9%, rgba(239,106,97,.13), transparent 24rem),
+        linear-gradient(180deg,#f5f7ff 0,#fff 34rem,#f6fbff 100%);
+      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+    :focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -5rem;
+      z-index: 100;
+      padding: .72rem 1rem;
+      border-radius: .75rem;
+      color: #fff;
+      background: var(--blue-dark);
+    }
+    .skip-link:focus { top: 1rem; }
+    .shell { width: min(calc(100% - 32px),var(--max)); margin-inline: auto; }
+
+    .hero { padding: 24px 0 16px; }
+    .hero-panel {
+      position: relative;
+      isolation: isolate;
+      min-height: 430px;
+      overflow: hidden;
+      border-radius: 34px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 78% 22%,rgba(133,226,255,.34),transparent 16rem),
+        radial-gradient(circle at 91% 76%,rgba(255,174,117,.27),transparent 17rem),
+        linear-gradient(135deg,#10265c 0%,#345ed8 45%,#754dbb 76%,#bb5b9a 100%);
+      box-shadow: 0 27px 72px rgba(34,55,129,.28);
+    }
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      opacity: .19;
+      background-image:
+        linear-gradient(rgba(255,255,255,.14) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.14) 1px,transparent 1px);
+      background-size: 46px 46px;
+      mask-image: linear-gradient(90deg,transparent,#000 38%,#000);
+    }
+    .hero-panel::after {
+      content: "";
+      position: absolute;
+      right: -6rem;
+      top: -6rem;
+      z-index: -1;
+      width: 28rem;
+      height: 28rem;
+      border: 5rem solid rgba(255,255,255,.085);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2rem rgba(255,255,255,.04),0 0 0 6rem rgba(255,255,255,.025);
+    }
+    .hero-grid {
+      display: grid;
+      min-height: 430px;
+      grid-template-columns: minmax(0,1.15fr) minmax(270px,.85fr);
+      gap: clamp(28px,5vw,64px);
+      align-items: center;
+      padding: clamp(30px,5.5vw,64px);
+    }
+    .portal-link {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: 1.8rem;
+      padding: .4rem .72rem;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+      color: rgba(255,255,255,.93);
+      background: rgba(255,255,255,.09);
+      font-size: .82rem;
+      font-weight: 800;
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+      transition: transform .18s ease,background .18s ease;
+    }
+    .portal-link:hover { transform: translateX(-3px); background: rgba(255,255,255,.18); }
+    .eyebrow { margin: 0 0 .55rem; color: #b8f5e7; font-size: .85rem; font-weight: 900; letter-spacing: .15em; text-transform: uppercase; }
+    h1,h2,h3,p { margin-top: 0; }
+    h1 { margin-bottom: .6rem; font-size: clamp(2.7rem,7vw,5.5rem); line-height: 1; letter-spacing: -.055em; }
+    .hero-lead { max-width: 41rem; margin: 1.1rem 0 0; color: rgba(255,255,255,.85); font-size: clamp(1rem,1.8vw,1.14rem); }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.3rem; }
+    .hero-tags span { padding: .36rem .68rem; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; background: rgba(255,255,255,.10); font-size: .8rem; font-weight: 800; backdrop-filter: blur(8px); }
+
+    .orbit {
+      position: relative;
+      display: grid;
+      width: min(100%,330px);
+      aspect-ratio: 1;
+      place-items: center;
+      justify-self: center;
+    }
+    .orbit-ring { position: absolute; inset: 7%; border: 1px solid rgba(255,255,255,.29); border-radius: 50%; transform: rotate(-18deg) scaleY(.72); }
+    .orbit-ring:nth-child(2) { inset: 19%; transform: rotate(40deg) scaleY(.7); }
+    .orbit-ring::after { content: ""; position: absolute; right: 11%; top: 4%; width: 13px; height: 13px; border-radius: 50%; background: #fff0a8; box-shadow: 0 0 22px rgba(255,240,168,.82); }
+    .spark {
+      position: relative;
+      display: grid;
+      width: 150px;
+      height: 150px;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.32);
+      border-radius: 44px;
+      background: linear-gradient(145deg,rgba(255,255,255,.22),rgba(255,255,255,.07));
+      box-shadow: 0 26px 58px rgba(7,24,66,.24);
+      backdrop-filter: blur(16px);
+      transform: rotate(8deg);
+    }
+    .spark svg { width: 86px; height: 86px; fill: rgba(255,255,255,.95); filter: drop-shadow(0 0 20px rgba(174,230,255,.58)); transform: rotate(-8deg); }
+
+    .quick-nav { position: relative; z-index: 3; margin-top: -20px; }
+    .nav-panel {
+      display: grid;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 8px;
+      padding: 9px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 14px 34px rgba(31,52,111,.12);
+      backdrop-filter: blur(12px);
+    }
+    .nav-panel a { min-width: 0; padding: .78rem .55rem; border-radius: 13px; color: var(--blue-dark); font-size: .9rem; font-weight: 850; text-align: center; text-decoration: none; transition: color .18s ease,background .18s ease,transform .18s ease; }
+    .nav-panel a:hover { color: #fff; background: linear-gradient(135deg,var(--blue),var(--violet)); transform: translateY(-2px); }
+
+    main { padding-bottom: 64px; }
+    section { scroll-margin-top: 1rem; padding: clamp(44px,7vw,78px) 0; }
+    section + section { border-top: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: minmax(0,1fr) minmax(270px,500px); gap: 24px; align-items: end; margin-bottom: 30px; }
+    .kicker { display: inline-flex; align-items: center; gap: .55rem; margin: 0 0 .55rem; color: var(--violet-dark); font-size: .82rem; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; }
+    .kicker::before { content: ""; width: 28px; height: 3px; border-radius: 3px; background: linear-gradient(90deg,var(--blue),var(--coral)); }
+    h2 { margin-bottom: 0; font-size: clamp(1.8rem,4vw,3rem); line-height: 1.18; letter-spacing: -.03em; }
+    .section-lead { margin: 0; color: var(--muted); }
+
+    .guide-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; counter-reset: steps; }
+    .guide-card {
+      --accent: var(--blue);
+      position: relative;
+      display: flex;
+      min-width: 0;
+      min-height: 385px;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 25px;
+      border: 1px solid var(--line);
+      border-radius: 25px;
+      background: linear-gradient(150deg,#fff 40%,color-mix(in srgb,var(--accent) 9%,#fff));
+      box-shadow: 0 13px 34px rgba(31,52,111,.09);
+      counter-increment: steps;
+      transition: transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+    }
+    .guide-card:nth-child(2) { --accent: var(--coral); }
+    .guide-card:nth-child(3) { --accent: var(--violet); }
+    .guide-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 6px; background: linear-gradient(90deg,var(--accent),transparent 86%); }
+    .guide-card::after { content: "0" counter(steps); position: absolute; right: 18px; top: 15px; color: color-mix(in srgb,var(--accent) 15%,transparent); font-size: 4.8rem; font-weight: 950; line-height: 1; letter-spacing: -.08em; }
+    .guide-card:hover { transform: translateY(-6px); border-color: color-mix(in srgb,var(--accent) 42%,#fff); box-shadow: var(--shadow); }
+    .icon-box { position: relative; z-index: 1; display: grid; width: 58px; height: 58px; place-items: center; border-radius: 18px; color: #fff; background: linear-gradient(145deg,var(--accent),color-mix(in srgb,var(--accent) 60%,#232058)); box-shadow: 0 10px 24px color-mix(in srgb,var(--accent) 24%,transparent); }
+    .icon-box svg { width: 29px; height: 29px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .step-label { width: fit-content; margin: 1.1rem 0 .45rem; padding: .2rem .58rem; border-radius: 999px; color: color-mix(in srgb,var(--accent) 78%,#17243d); background: color-mix(in srgb,var(--accent) 11%,#fff); font-size: .75rem; font-weight: 900; letter-spacing: .04em; }
+    .guide-card h3 { margin-bottom: .6rem; font-size: 1.2rem; line-height: 1.47; }
+    .guide-card p { color: var(--muted); }
+    .card-footer { margin-top: auto; }
+    .button { display: inline-flex; min-height: 47px; align-items: center; justify-content: center; gap: .5rem; padding: .66rem 1rem; border: 1px solid var(--accent,var(--blue)); border-radius: 12px; color: #fff; background: linear-gradient(135deg,var(--accent,var(--blue)),color-mix(in srgb,var(--accent,var(--blue)) 64%,var(--violet))); font-weight: 850; line-height: 1.35; text-decoration: none; transition: transform .18s ease,box-shadow .18s ease; }
+    .button:hover { transform: translateY(-2px); box-shadow: 0 9px 20px color-mix(in srgb,var(--accent,var(--blue)) 23%,transparent); }
+
+    #gems { position: relative; }
+    #gems::before { content: ""; position: absolute; inset: 18px 0; z-index: -1; background: linear-gradient(135deg,rgba(232,238,255,.72),rgba(247,235,255,.58)); }
+    .gem-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }
+    .gem-card { --accent: var(--violet); position: relative; display: grid; min-width: 0; grid-template-columns: 72px minmax(0,1fr); gap: 20px; align-items: start; padding: 25px; overflow: hidden; border: 1px solid var(--line); border-radius: 24px; background: #fff; box-shadow: 0 13px 32px rgba(31,52,111,.09); }
+    .gem-card:nth-child(2) { --accent: var(--coral); }
+    .gem-card h3 { margin-bottom: .5rem; font-size: 1.17rem; line-height: 1.48; }
+    .gem-card p { color: var(--muted); }
+    .gem-card .button { font-size: .92rem; }
+    .gem-symbol { display: grid; width: 72px; height: 72px; place-items: center; border-radius: 22px; color: #fff; background: linear-gradient(145deg,var(--accent),color-mix(in srgb,var(--accent) 58%,#25305d)); box-shadow: 0 12px 26px color-mix(in srgb,var(--accent) 25%,transparent); font-size: 1.55rem; font-weight: 900; }
+
+    .notice { display: flex; gap: 13px; align-items: flex-start; margin-top: 28px; padding: 18px 20px; border: 1px solid #ead8b5; border-radius: 17px; color: #664516; background: #fff9ed; }
+    .notice strong { display: block; }
+
+    .back-to-top { position: fixed; right: max(16px,env(safe-area-inset-right)); bottom: max(18px,env(safe-area-inset-bottom)); z-index: 30; display: inline-flex; gap: .5rem; align-items: center; min-height: 48px; padding: .65rem 1rem; border: 1px solid rgba(255,255,255,.36); border-radius: 999px; color: #fff; background: linear-gradient(135deg,var(--blue),var(--violet)); box-shadow: 0 12px 28px rgba(23,63,143,.29); font-size: .9rem; font-weight: 850; text-decoration: none; opacity: 0; visibility: hidden; transform: translateY(14px); transition: opacity .2s ease,visibility .2s ease,transform .2s ease; }
+    .back-to-top.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
+    .back-to-top:hover { transform: translateY(-3px); }
+
+    footer { padding: 28px 0 44px; border-top: 1px solid var(--line); color: var(--muted); background: rgba(255,255,255,.62); font-size: .9rem; }
+    .footer-inner { display: flex; flex-wrap: wrap; gap: 10px 26px; justify-content: space-between; }
+    footer p { margin: 0; }
+    footer a { color: var(--blue); font-weight: 800; }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .orbit { display: none; }
+      .guide-grid { grid-template-columns: 1fr; }
+      .guide-card { min-height: 0; }
+      .section-head { grid-template-columns: 1fr; align-items: start; }
+    }
+    @media (max-width: 670px) {
+      .shell { width: min(calc(100% - 22px),var(--max)); }
+      .hero { padding-top: 12px; }
+      .hero-panel { min-height: 0; border-radius: 22px; }
+      .hero-grid { min-height: 0; padding: 27px 23px 54px; }
+      .portal-link { margin-bottom: 1.35rem; }
+      .quick-nav { margin-top: -28px; }
+      .nav-panel { grid-template-columns: 1fr; }
+      .gem-grid { grid-template-columns: 1fr; }
+      .gem-card { grid-template-columns: 58px minmax(0,1fr); gap: 15px; padding: 21px; }
+      .gem-symbol { width: 58px; height: 58px; border-radius: 18px; }
+      .footer-inner { display: block; }
+      .footer-inner p + p { margin-top: .5rem; }
+      .back-to-top { right: 12px; bottom: 12px; min-width: 48px; justify-content: center; padding: .65rem .8rem; }
+      .back-to-top-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *,*::before,*::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#guide">活用ガイドへ移動</a>
+
+  <header id="page-top" class="hero">
+    <div class="shell hero-panel">
+      <div class="hero-grid">
+        <div>
+          <a class="portal-link" href="https://sites.google.com/wasegaku.ac.jp/information/index" target="_top">← 情報ポータルへ戻る</a>
+          <p class="eyebrow">Explore · Practice · Create</p>
+          <h1>Gemini<br>活用ガイド</h1>
+          <p class="hero-lead">Chromeブラウザの「Geminiに相談」から、活用事例・プロンプト、目的別の共有Gemまで。知りたい内容から選んで始められます。</p>
+          <div class="hero-tags" aria-label="掲載内容">
+            <span>Geminiに相談</span>
+            <span>活用事例</span>
+            <span>プロンプト</span>
+            <span>共有Gem</span>
+          </div>
+        </div>
+        <div class="orbit" aria-hidden="true">
+          <span class="orbit-ring"></span>
+          <span class="orbit-ring"></span>
+          <span class="spark"><svg viewBox="0 0 100 100"><path d="M50 5c4 27 18 41 45 45-27 4-41 18-45 45-4-27-18-41-45-45 27-4 41-18 45-45Z"/></svg></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="shell quick-nav" aria-label="ページ内メニュー">
+    <div class="nav-panel">
+      <a href="#guide">3つの活用ガイド</a>
+      <a href="#gems">共有Gem</a>
+      <a href="#usage-note">利用時の確認</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="guide" aria-labelledby="guide-title">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Three ways to start</p>
+            <h2 id="guide-title">目的に合わせて選ぶ</h2>
+          </div>
+          <p class="section-lead">基本から順番に見ることも、必要なページだけを開くこともできます。</p>
+        </div>
+        <div id="guide-grid" class="guide-grid"></div>
+      </div>
+    </section>
+
+    <section id="gems" aria-labelledby="gems-title">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Shared Gems</p>
+            <h2 id="gems-title">すぐに使える共有Gem</h2>
+          </div>
+          <p class="section-lead">現在のGem特集ページに掲載されている共有Gemです。</p>
+        </div>
+        <div id="gem-grid" class="gem-grid"></div>
+        <div id="usage-note" class="notice" role="note">
+          <span aria-hidden="true">🔐</span>
+          <div><strong>利用時の確認</strong>リンク先の公開範囲やGoogleアカウントの利用条件は、現在設定されている権限に従います。アクセスできない場合は、使用中のGoogleアカウントをご確認ください。</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a id="back-to-top" class="back-to-top" href="#page-top" aria-label="ページ上部へ戻る">
+    <span aria-hidden="true">↑</span>
+    <span class="back-to-top-label">ページ上部へ</span>
+  </a>
+
+  <footer>
+    <div class="shell footer-inner">
+      <p><strong>ICT &amp; Generative AI — Gemini活用ガイド</strong></p>
+      <p>掲載内容確認：2026年9月21日　<a href="#page-top">ページ上部へ戻る</a></p>
+    </div>
+  </footer>
+
+  <script>
+    /* ================================================================
+       CONTENT DATA — 項目を追加・更新するときは、以下の配列を編集します。
+       ================================================================ */
+    const guides = [
+      {
+        icon: "browser",
+        label: "まず基本を知る",
+        title: "Chromeブラウザの「Geminiに相談」で自学自習と遠隔指導をアップデート",
+        text: "Chromeブラウザの「Geminiに相談」について確認するページです。",
+        href: "https://sites.google.com/wasegaku.ac.jp/information/gemini/Gemini",
+        button: "基本ガイドを見る"
+      },
+      {
+        icon: "prompt",
+        label: "事例から試す",
+        title: "Geminiに相談しよう − Geminiボタンを活用 −！（事例・プロンプト集）",
+        text: "Geminiボタンの活用事例とプロンプトを紹介するページです。",
+        href: "https://sites.google.com/wasegaku.ac.jp/information/gemini/gemini_t",
+        button: "事例・プロンプトを見る"
+      },
+      {
+        icon: "gem",
+        label: "専用Gemを使う",
+        title: "Gemini-Gem特集（Gemの解説と、共有Gemを御紹介！）",
+        text: "Gemの解説と、現在共有されているGemを紹介するページです。",
+        href: "https://sites.google.com/wasegaku.ac.jp/information/gemini/gem",
+        button: "Gem特集を見る"
+      }
+    ];
+
+    const gems = [
+      {
+        symbol: "UI",
+        title: "ユニバーサル・インクルーシブデザインチェックGem",
+        text: "ユニバーサル・インクルーシブデザインの確認に使用する共有Gemです。",
+        href: "https://gemini.google.com/gem/2bbf2eb67493?usp=sharing",
+        button: "Gemを開く"
+      },
+      {
+        symbol: "PR",
+        title: "ポスター、チラシ作成用プロンプト提案Gem（画像を作るための最適なプロンプトを提案）",
+        text: "ポスターやチラシの画像制作に向けたプロンプトを提案する共有Gemです。",
+        href: "https://gemini.google.com/gem/29c69c5346d7?usp=sharing",
+        button: "Gemを開く"
+      }
+    ];
+
+    function icon(name) {
+      const paths = {
+        browser: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/><path d="m10 13 2 2 4-4"/>',
+        prompt: '<path d="M4 5h16v11H9l-5 4V5Z"/><path d="M8 9h8M8 12h5"/>',
+        gem: '<path d="m12 3 7 5-2.7 9H7.7L5 8l7-5Z"/><path d="m5 8 7 9 7-9M9 8l3-5 3 5"/>'
+      };
+      return `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.gem}</svg>`;
+    }
+
+    document.querySelector("#guide-grid").innerHTML = guides.map(item => `
+      <article class="guide-card">
+        <div class="icon-box">${icon(item.icon)}</div>
+        <span class="step-label">${item.label}</span>
+        <h3>${item.title}</h3>
+        <p>${item.text}</p>
+        <div class="card-footer"><a class="button" href="${item.href}" target="_top">${item.button} <span aria-hidden="true">→</span></a></div>
+      </article>`).join("");
+
+    document.querySelector("#gem-grid").innerHTML = gems.map(item => `
+      <article class="gem-card">
+        <div class="gem-symbol" aria-hidden="true">${item.symbol}</div>
+        <div>
+          <h3>${item.title}</h3>
+          <p>${item.text}</p>
+          <a class="button" href="${item.href}" target="_blank" rel="noopener noreferrer">${item.button} <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>`).join("");
+
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener("click",event => {
+        const target = document.querySelector(link.getAttribute("href"));
+        if (!target) return;
+        event.preventDefault();
+        target.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",block:"start"});
+      });
+    });
+
+    const backToTop = document.querySelector("#back-to-top");
+    const toggleBackToTop = () => backToTop.classList.toggle("is-visible",window.scrollY > 280);
+    window.addEventListener("scroll",toggleBackToTop,{passive:true});
+    toggleBackToTop();
+  </script>
+</body>
+</html>
