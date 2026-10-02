@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ICT、インターネット安全、生成AI、教育に関する公的機関の参考資料を分野別に案内します。">
+  <meta name="color-scheme" content="light">
+  <title>参考資料｜ICT &amp; Generative AI</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231d5f85'/%3E%3Cpath d='M16 16h25a7 7 0 017 7v25H23a7 7 0 01-7-7z' fill='white'/%3E%3Cpath d='M23 16v32M29 26h12M29 34h12' stroke='%2387c7b2' stroke-width='4'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --navy: #0b2340;
+      --blue: #1d5f85;
+      --blue-2: #2f7ea0;
+      --sky: #e8f4f8;
+      --mint: #87c7b2;
+      --gold: #f4bd4b;
+      --ink: #16283a;
+      --muted: #5d6e7d;
+      --line: #d8e4ea;
+      --paper: #f4f8fa;
+      --white: #fff;
+      --shadow: 0 18px 45px rgba(11,35,64,.12);
+      --radius: 24px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Noto Sans JP", "Yu Gothic", "Hiragino Kaku Gothic ProN", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+    button, input { font: inherit; }
+    .shell { width: min(1160px, calc(100% - 36px)); margin-inline: auto; }
+
+    .hero {
+      position: relative;
+      min-height: 440px;
+      padding: 28px 0 82px;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 82% 22%, rgba(244,189,75,.24) 0 3px, transparent 4px),
+        radial-gradient(circle at 90% 54%, rgba(135,199,178,.32) 0 4px, transparent 5px),
+        linear-gradient(128deg, #071a30 0%, #0d3557 50%, #1d6688 100%);
+      isolation: isolate;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "REFERENCE";
+      position: absolute;
+      right: -20px;
+      bottom: -50px;
+      z-index: -1;
+      color: rgba(255,255,255,.055);
+      font-size: clamp(5rem, 15vw, 12rem);
+      font-weight: 900;
+      letter-spacing: -.06em;
+      white-space: nowrap;
+    }
+    .portal-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 999px;
+      color: var(--white);
+      background: rgba(255,255,255,.09);
+      text-decoration: none;
+      font-size: .92rem;
+      font-weight: 800;
+      backdrop-filter: blur(8px);
+    }
+    .portal-link:hover { background: rgba(255,255,255,.18); }
+    .hero-content { max-width: 850px; padding-top: 62px; }
+    .eyebrow { margin: 0 0 12px; color: #b9e4d6; font-size: .82rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(3.2rem, 8vw, 6.8rem); line-height: .98; letter-spacing: -.06em; }
+    .hero-lead { max-width: 760px; margin: 26px 0 0; color: #e5f1f6; font-size: clamp(1rem, 1.8vw, 1.22rem); }
+
+    main { position: relative; z-index: 2; margin-top: -42px; padding-bottom: 76px; }
+    .finder {
+      padding: 26px;
+      border: 1px solid rgba(216,228,234,.9);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+    .finder-row { display: grid; grid-template-columns: minmax(260px, 1fr) auto; gap: 22px; align-items: end; }
+    .search-label { display: block; margin-bottom: 7px; color: var(--navy); font-size: .86rem; font-weight: 800; }
+    .search-wrap { position: relative; }
+    .search-wrap::before { content: "⌕"; position: absolute; left: 15px; top: 50%; transform: translateY(-53%); color: var(--blue); font-size: 1.45rem; font-weight: 900; }
+    #search {
+      width: 100%;
+      min-height: 52px;
+      padding: 11px 16px 11px 46px;
+      border: 1px solid #bfd2dc;
+      border-radius: 15px;
+      color: var(--ink);
+      background: #fbfdfe;
+      outline: none;
+    }
+    #search:focus { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(29,95,133,.12); }
+    .result-count { min-width: 116px; padding: 9px 15px; border-radius: 14px; color: var(--blue); background: var(--sky); text-align: center; font-weight: 900; }
+    .filters { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+    .filter {
+      min-height: 42px;
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: var(--white);
+      cursor: pointer;
+      font-size: .9rem;
+      font-weight: 800;
+    }
+    .filter:hover { border-color: var(--blue); color: var(--blue); }
+    .filter[aria-pressed="true"] { border-color: var(--navy); color: var(--white); background: var(--navy); }
+
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 28px; margin: 60px 0 26px; }
+    .section-kicker { margin: 0 0 4px; color: var(--blue); font-size: .8rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    h2 { margin: 0; color: var(--navy); font-size: clamp(1.8rem, 4vw, 2.75rem); line-height: 1.25; letter-spacing: -.035em; }
+    .section-note { max-width: 560px; margin: 0; color: var(--muted); }
+
+    .resource-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .card {
+      display: flex;
+      flex-direction: column;
+      min-height: 330px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: 0 12px 30px rgba(11,35,64,.07);
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .card:hover { transform: translateY(-4px); border-color: #a9cad8; box-shadow: 0 20px 42px rgba(11,35,64,.12); }
+    .card[hidden] { display: none; }
+    .card-meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .category { padding: 5px 10px; border-radius: 999px; color: #155a48; background: #e7f4ef; font-size: .77rem; font-weight: 800; }
+    .format { color: var(--blue); font-size: .78rem; font-weight: 900; letter-spacing: .06em; }
+    .card h3 { margin: 22px 0 12px; color: var(--navy); font-size: clamp(1.16rem, 2.2vw, 1.48rem); line-height: 1.5; }
+    .provider { margin: 0 0 10px; color: var(--blue); font-size: .9rem; font-weight: 800; }
+    .description { margin: 0 0 24px; color: var(--muted); }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
+      min-height: 50px;
+      margin-top: auto;
+      padding: 11px 16px;
+      border-radius: 14px;
+      color: var(--white);
+      background: var(--navy);
+      text-decoration: none;
+      font-weight: 800;
+    }
+    .button:hover { background: var(--blue); }
+    .button span:last-child { color: var(--gold); font-size: 1.3rem; }
+    .empty {
+      grid-column: 1 / -1;
+      padding: 44px 24px;
+      border: 1px dashed #aac2ce;
+      border-radius: var(--radius);
+      color: var(--muted);
+      background: rgba(255,255,255,.7);
+      text-align: center;
+    }
+    .empty strong { display: block; margin-bottom: 5px; color: var(--navy); font-size: 1.12rem; }
+
+    .source-note {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 15px;
+      align-items: start;
+      margin-top: 26px;
+      padding: 20px 22px;
+      border: 1px solid #c9dce4;
+      border-radius: 18px;
+      color: #38566a;
+      background: #edf6f9;
+    }
+    .source-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; color: var(--white); background: var(--blue); font-weight: 900; }
+    .source-note strong { display: block; color: var(--navy); }
+    .source-note p { margin: 2px 0 0; }
+
+    .footer { padding: 30px 0 44px; border-top: 1px solid var(--line); color: var(--muted); background: var(--white); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .footer a { color: var(--blue); font-weight: 800; text-decoration: none; }
+    .to-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 20;
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      border: 0;
+      border-radius: 50%;
+      color: var(--white);
+      background: var(--navy);
+      box-shadow: 0 10px 24px rgba(11,35,64,.26);
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+    .to-top:hover { background: var(--blue); }
+
+    @media (max-width: 800px) {
+      .hero { min-height: 400px; }
+      .hero-content { padding-top: 50px; }
+      .finder-row { grid-template-columns: 1fr; gap: 12px; }
+      .result-count { justify-self: start; }
+      .section-head { align-items: flex-start; flex-direction: column; gap: 10px; }
+      .resource-grid { grid-template-columns: 1fr; }
+      .card { min-height: 0; }
+    }
+    @media (max-width: 560px) {
+      .shell { width: min(100% - 24px, 1160px); }
+      .hero { min-height: 370px; padding-top: 18px; }
+      .hero-content { padding-top: 40px; }
+      h1 { font-size: clamp(3rem, 17vw, 4.4rem); }
+      main { margin-top: -30px; }
+      .finder { padding: 20px; }
+      .filter { flex: 1 1 calc(50% - 9px); }
+      .section-head { margin-top: 50px; }
+      .card { padding: 23px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .card { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header id="page-top" class="hero">
+    <div class="shell">
+      <a class="portal-link" href="https://sites.google.com/wasegaku.ac.jp/information/index" target="_top">← 情報ポータルへ戻る</a>
+      <div class="hero-content">
+        <p class="eyebrow">Trusted Resources</p>
+        <h1>参考資料</h1>
+        <p class="hero-lead">ICT・インターネット安全、生成AI、学校教育に関する資料をまとめました。分野やキーワードから、必要な情報をすぐに探せます。</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <section class="finder" aria-label="資料検索">
+        <div class="finder-row">
+          <div>
+            <label class="search-label" for="search">キーワードで探す</label>
+            <div class="search-wrap"><input id="search" type="search" placeholder="例：生成AI、文部科学省、安全" autocomplete="off"></div>
+          </div>
+          <div id="result-count" class="result-count" aria-live="polite">8件表示</div>
+        </div>
+        <div class="filters" aria-label="分野で絞り込む">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">すべて</button>
+          <button class="filter" type="button" data-filter="ICT・インターネット安全" aria-pressed="false">ICT・安全</button>
+          <button class="filter" type="button" data-filter="生成AI" aria-pressed="false">生成AI</button>
+          <button class="filter" type="button" data-filter="教育関連" aria-pressed="false">教育関連</button>
+        </div>
+      </section>
+
+      <section aria-labelledby="resources-title">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Resource Library</p>
+            <h2 id="resources-title">信頼できる資料を選ぶ</h2>
+          </div>
+          <p class="section-note">国や自治体などの公的機関が公開する資料を中心に掲載しています。リンク先は別画面で開きます。</p>
+        </div>
+        <div id="resource-grid" class="resource-grid"></div>
+        <aside class="source-note" role="note">
+          <div class="source-mark" aria-hidden="true">i</div>
+          <div><strong>資料の内容・公開状況について</strong><p>内容やURLは各提供元で更新される場合があります。利用時には、リンク先の最新情報をご確認ください。</p></div>
+        </aside>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <span>ICT &amp; Generative AI — Reference Library</span>
+      <a href="https://sites.google.com/wasegaku.ac.jp/information/index" target="_top">情報ポータルへ戻る →</a>
+    </div>
+  </footer>
+
+  <button class="to-top" type="button" aria-label="ページ上部へ戻る">↑</button>
+
+  <script>
+    const resources = [
+      {
+        category: "ICT・インターネット安全", format: "WEB",
+        title: "上手にネットと付き合おう — 安全・安心なインターネット利用ガイド —",
+        provider: "総務省", description: "インターネットを安全・安心に利用するための基本を学べるガイドです。",
+        href: "https://www.soumu.go.jp/use_the_internet_wisely/"
+      },
+      {
+        category: "ICT・インターネット安全", format: "WEB",
+        title: "インターネットトラブル事例集",
+        provider: "総務省", description: "身近なトラブル事例から、予防と対応のポイントを確認できます。",
+        href: "https://www.soumu.go.jp/use_the_internet_wisely/trouble/"
+      },
+      {
+        category: "生成AI", format: "WEB",
+        title: "生成AIはじめの一歩〜生成AIの入門的な使い方と注意点〜",
+        provider: "総務省", description: "生成AIの基本的な使い方と、利用時に気を付けたい点を解説しています。",
+        href: "https://www.soumu.go.jp/use_the_internet_wisely/special/generativeai/"
+      },
+      {
+        category: "生成AI", format: "WEB・PDF",
+        title: "AI導入・活用ガイドライン、生成AI利用の手引き",
+        provider: "東京都デジタルサービス局", description: "組織でAIを導入・活用する際の考え方と実務上の留意点を示す資料です。",
+        href: "https://www.digitalservice.metro.tokyo.lg.jp/business/ai/ai-guideline"
+      },
+      {
+        category: "生成AI", format: "WEB",
+        title: "生成AIの利用について",
+        provider: "文部科学省", description: "学校教育における生成AIの取扱いに関する情報をまとめた公式ページです。",
+        href: "https://www.mext.go.jp/a_menu/other/mext_02412.html"
+      },
+      {
+        category: "教育関連", format: "PDF",
+        title: "初等中等教育段階における生成AIの利活用に関するガイドライン（Ver.2.0）",
+        provider: "文部科学省", description: "学校現場で生成AIを適切に利活用するための基本的な考え方と留意事項です。",
+        href: "https://www.mext.go.jp/content/20241226-mxt_shuukyo02-000030823_001.pdf"
+      },
+      {
+        category: "教育関連", format: "WEB",
+        title: "通信制高等学校情報発信サイト",
+        provider: "文部科学省", description: "通信制高等学校の仕組みや学びに関する情報を確認できる公式サイトです。",
+        href: "https://www.mext.go.jp/tsushinseikoukou/"
+      },
+      {
+        category: "生成AI", format: "GEMINI NOTEBOOK",
+        title: "AIの教育活用 by Gemini Notebook",
+        provider: "Gemini Notebook", description: "教育におけるAI活用の情報をGemini Notebookで参照できます。",
+        href: "https://notebooklm.google.com/notebook/b2f6fb83-56bd-48ba-a406-c259143de5d5"
+      }
+    ];
+
+    const grid = document.getElementById("resource-grid");
+    const search = document.getElementById("search");
+    const count = document.getElementById("result-count");
+    const filters = [...document.querySelectorAll(".filter")];
+    let activeFilter = "all";
+
+    function escapeHtml(value) {
+      return value.replace(/[&<>'"]/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"})[char]);
+    }
+
+    function render() {
+      const query = search.value.trim().toLocaleLowerCase("ja");
+      const visible = resources.filter(item => {
+        const categoryMatch = activeFilter === "all" || item.category === activeFilter;
+        const haystack = `${item.category} ${item.format} ${item.title} ${item.provider} ${item.description}`.toLocaleLowerCase("ja");
+        return categoryMatch && (!query || haystack.includes(query));
+      });
+
+      count.textContent = `${visible.length}件表示`;
+      if (!visible.length) {
+        grid.innerHTML = '<div class="empty"><strong>該当する資料が見つかりませんでした</strong>キーワードまたは分野を変えてお試しください。</div>';
+        return;
+      }
+
+      grid.innerHTML = visible.map(item => `
+        <article class="card">
+          <div class="card-meta">
+            <span class="category">${escapeHtml(item.category)}</span>
+            <span class="format">${escapeHtml(item.format)}</span>
+          </div>
+          <h3>${escapeHtml(item.title)}</h3>
+          <p class="provider">提供：${escapeHtml(item.provider)}</p>
+          <p class="description">${escapeHtml(item.description)}</p>
+          <a class="button" href="${escapeHtml(item.href)}" target="_blank" rel="noopener"><span>資料を見る</span><span aria-hidden="true">↗</span></a>
+        </article>
+      `).join("");
+    }
+
+    filters.forEach(button => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+        filters.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+        render();
+      });
+    });
+    search.addEventListener("input", render);
+    document.querySelector(".to-top").addEventListener("click", () => window.scrollTo({top: 0, behavior: "smooth"}));
+    render();
+  </script>
+</body>
+</html>
